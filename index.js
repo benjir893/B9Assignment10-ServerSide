@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config()
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000
 
@@ -36,6 +36,18 @@ async function run() {
 
         const woodCollection = client.db("crufts").collection("allcrufts");
         // Send a ping to confirm a successful connection
+
+        app.get('/addcruft', async(req, res)=>{
+            const cursor = woodCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+        app.get('/addcruft/:id', async(req, res)=>{
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)};
+            const result = await woodCollection.findOne(query);
+            res.send(result)
+        })
         app.post('/addcruft', async (req, res) => {
             const newcruft = req.body;
             console.log(newcruft);
@@ -53,9 +65,9 @@ async function run() {
 run().catch(console.dir);
 
 
-app.get('/', (req, res) => {
-    res.send('testing if server side is running')
-})
+// app.get('/', (req, res) => {
+//     res.send('testing if server side is running')
+// })
 app.listen(port, () => {
     console.log(`server side is running on port ${port}`)
 })
