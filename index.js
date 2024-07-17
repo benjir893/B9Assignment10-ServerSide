@@ -42,12 +42,7 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         })
-        app.get('/addcruft/:id', async(req, res)=>{
-            const id = req.params.id;
-            const query = {_id: new ObjectId(id)};
-            const result = await woodCollection.findOne(query);
-            res.send(result)
-        })
+        
         app.post('/addcruft', async (req, res) => {
             const newcruft = req.body;
             console.log(newcruft);
