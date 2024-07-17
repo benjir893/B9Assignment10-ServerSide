@@ -10,13 +10,13 @@ app.use(express.json());
 app.use(cors())
 
 
-// benjirbhuyan
-// PSVsA1vVJqRqEJe6
 
-const db_user =process.env.DB_USER;
-const db_pass =process.env.DB_PASS;
+const db_user = process.env.DB_USER;
+const db_pass = process.env.DB_PASS;
 
 const uri = `mongodb+srv://${db_user}:${db_pass}@cluster0.mym2gsq.mongodb.net/?appName=Cluster0`;
+
+
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -27,13 +27,22 @@ const client = new MongoClient(uri, {
     }
 });
 
+    
+
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
+
+        const woodCollection = client.db("crufts").collection("allcrufts");
         // Send a ping to confirm a successful connection
-        const woodCollection = client.db("crufts").collection("woodcruft");
-        
+        app.post('/addcruft', async (req, res) => {
+            const newcruft = req.body;
+            console.log(newcruft);
+            const result =await woodCollection.insertOne(newcruft);
+            res.send(result);
+        })
+
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
