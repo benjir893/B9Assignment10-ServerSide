@@ -49,6 +49,12 @@ async function run() {
             const result = await woodCollection.findOne(query);
             res.send(result)
         })
+        app.delete('/addcruft/:id', async(req, res)=>{
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)};
+            const result =await woodCollection.deleteOne(query);
+            res.send(result)
+        })
         app.post('/addcruft', async (req, res) => {
             const newcruft = req.body;
             console.log(newcruft);
@@ -57,17 +63,25 @@ async function run() {
         })
 
         //create users
-        app.post('/users', async(req, res)=>{
-            const newuser = req.body;
-            const result =await cruftUsers.insertOne(newuser);
-            res.send(result)
-        })
         app.get('/users', async(req, res)=>{
             const cursor= cruftUsers.find();
             const result = await cursor.toArray();
             res.send(result)
 
         })
+        app.get('/users/:id', async(req, res)=>{
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)};
+            console.log(query);
+            const result =await cruftUsers.findOne(query);
+            res.send(result);
+        })
+        app.post('/users', async(req, res)=>{
+            const newuser = req.body;
+            const result =await cruftUsers.insertOne(newuser);
+            res.send(result)
+        })
+        
 
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
