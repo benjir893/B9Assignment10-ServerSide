@@ -27,7 +27,7 @@ const client = new MongoClient(uri, {
     }
 });
 
-    
+
 
 async function run() {
     try {
@@ -38,50 +38,69 @@ async function run() {
         const cruftUsers = client.db("crufts").collection("cruftusers");
         // Send a ping to confirm a successful connection
 
-        app.get('/addcruft', async(req, res)=>{
+        app.get('/addcruft', async (req, res) => {
             const cursor = woodCollection.find();
             const result = await cursor.toArray();
             res.send(result);
         })
-        app.get('/addcruft/:id', async(req, res)=>{
+        app.get('/addcruft/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id: new ObjectId(id)};
+            const query = { _id: new ObjectId(id) };
             const result = await woodCollection.findOne(query);
             res.send(result)
         })
-        app.delete('/addcruft/:id', async(req, res)=>{
+        app.delete('/addcruft/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id: new ObjectId(id)};
-            const result =await woodCollection.deleteOne(query);
+            const query = { _id: new ObjectId(id) };
+            const result = await woodCollection.deleteOne(query);
             res.send(result)
         })
         app.post('/addcruft', async (req, res) => {
             const newcruft = req.body;
             console.log(newcruft);
-            const result =await woodCollection.insertOne(newcruft);
+            const result = await woodCollection.insertOne(newcruft);
             res.send(result);
+        })
+        app.put('/addcruft/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedProd = req.body;
+            const query = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const prod = {
+                $set: {
+                    name:updatedProd.name,
+                    catselect:updatedProd.catselect,
+                    madeof:updatedProd.madeof,
+                    quantity:updatedProd.quantity,
+                    photo:updatedProd.photo,
+                    price:updatedProd.price,
+                    descripion:updatedProd.descripion,
+                }
+            }
+            const result = await woodCollection.updateOne(query, prod, options);
+            res.send(result)
         })
 
         //create users
-        app.get('/users', async(req, res)=>{
-            const cursor= cruftUsers.find();
+        app.get('/users', async (req, res) => {
+            const cursor = cruftUsers.find();
             const result = await cursor.toArray();
             res.send(result)
 
         })
-        app.get('/users/:id', async(req, res)=>{
+        app.get('/users/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id: new ObjectId(id)};
+            const query = { _id: new ObjectId(id) };
             console.log(query);
-            const result =await cruftUsers.findOne(query);
+            const result = await cruftUsers.findOne(query);
             res.send(result);
         })
-        app.post('/users', async(req, res)=>{
+        app.post('/users', async (req, res) => {
             const newuser = req.body;
-            const result =await cruftUsers.insertOne(newuser);
+            const result = await cruftUsers.insertOne(newuser);
             res.send(result)
         })
-        
+
 
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
