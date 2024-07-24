@@ -11,10 +11,10 @@ app.use(cors())
 
 
 
-const db_user = process.env.DB_USER;
-const db_pass = process.env.DB_PASS;
+// const db_user = process.env.DB_USER;
+// const db_pass = process.env.DB_PASS;
 
-const uri = `mongodb+srv://${db_user}:${db_pass}@cluster0.mym2gsq.mongodb.net/?appName=Cluster0`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.mym2gsq.mongodb.net/?appName=Cluster0`;
 
 
 
