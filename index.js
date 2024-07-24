@@ -7,7 +7,11 @@ const port = process.env.PORT || 5000
 
 //middleware
 app.use(express.json());
-app.use(cors())
+app.use(cors({
+    origin:["https://b9-assignment10-clientside.vercel.app"],
+    methods:["GET","POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    credentials: true
+}))
 
 
 
