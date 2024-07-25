@@ -7,7 +7,11 @@ const port = process.env.PORT || 5000
 
 //middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: ["https://b9assignment10.web.app"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    credentials: true
+}));
 
 
 
@@ -15,9 +19,7 @@ app.use(cors());
 // const db_pass = process.env.DB_PASS;
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.mym2gsq.mongodb.net/?appName=Cluster0`;
-// mongodb+srv://benjirbhuyan:<password>@cluster0.mym2gsq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
-//mongodb+srv://benjirbhuyan:PSVsA1vVJqRqEJe6@cluster0.mym2gsq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -69,13 +71,13 @@ async function run() {
             const options = { upsert: true };
             const prod = {
                 $set: {
-                    name:updatedProd.name,
-                    catselect:updatedProd.catselect,
-                    madeof:updatedProd.madeof,
-                    quantity:updatedProd.quantity,
-                    photo:updatedProd.photo,
-                    price:updatedProd.price,
-                    descripion:updatedProd.descripion,
+                    name: updatedProd.name,
+                    catselect: updatedProd.catselect,
+                    madeof: updatedProd.madeof,
+                    quantity: updatedProd.quantity,
+                    photo: updatedProd.photo,
+                    price: updatedProd.price,
+                    descripion: updatedProd.descripion,
                 }
             }
             const result = await woodCollection.updateOne(query, prod, options);
