@@ -7,11 +7,7 @@ const port = process.env.PORT || 5000
 
 //middleware
 app.use(express.json());
-app.use(cors({
-    origin:["https://b9-assignment10-clientside.vercel.app"],
-    methods:["GET","POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    credentials: true
-}))
+app.use(cors());
 
 
 
@@ -116,9 +112,9 @@ async function run() {
 run().catch(console.dir);
 
 
-// app.get('/', (req, res) => {
-//     res.send('testing if server side is running')
-// })
+app.get('/', (req, res) => {
+    res.send('testing if server side is running')
+})
 app.listen(port, () => {
     console.log(`server side is running on port ${port}`)
 })
