@@ -7,13 +7,13 @@ const port = process.env.PORT || 5000
 
 //middleware
 app.use(express.json());
-app.use(cors(
-    {
-        origin: ["https://b9assignment10.web.app"],
-        methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-        credentials: true
-    }
-));
+app.use(cors());
+
+// {
+//     origin: ["https://b9assignment10.web.app"],
+//     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+//     credentials: true
+// }
 
 
 
